@@ -6,8 +6,7 @@ import React from 'react';
 
 const Page = async () => {
   const data = await getUserWorkspaces();
-  const user = await userRequired();
-
+  const { user } = await userRequired(); // ← هنا بنفك المستخدم الحقيقي من الـ object
 
   // التوجيه حسب الحالة
   if (data?.onboardingCompleted && data?.workspaces.length > 0) {
@@ -16,16 +15,20 @@ const Page = async () => {
     redirect("/create-workspace");
   }
 
-  const name = `${user?.given_name || ""} ${user?.family_name || ""}`;
+  // نكتب الاسم بشكل آمن
+  const name = `${(user as any)?.given_name || ""} ${(user as any)?.family_name || ""}`;
 
   return (
-    <div className="">
-      <OnboardingForm 
-      name={name}
-       email={user?.email as string } 
-       image= {user?.picture || ""}/>
+    <div>
+      <OnboardingForm
+        name={name}
+        email={user?.email as string}
+        image={user?.picture || ""}
+      />
     </div>
   );
 };
 
 export default Page;
+
+  
