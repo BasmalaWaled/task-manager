@@ -1,13 +1,14 @@
 import { userRequired } from "../user/is-user-authenticated";
 import { getDb } from "@/lib/db";
 
-
-
 export const getUserWorkspaces = async () => {
-                  
   try {
-     const db = getDb();       
+    const db = getDb();
     const { user } = await userRequired();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
 
     const workspace = await db.user.findUnique({
       where: { id: user.id },
@@ -38,3 +39,4 @@ export const getUserWorkspaces = async () => {
     return null;
   }
 };
+
