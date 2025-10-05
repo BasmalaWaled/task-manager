@@ -54,6 +54,7 @@ export const OnboardingForm = ({ name, email, image }: Props) => {
       name: name || "",
       email: email,
       image: image || "",
+      industry: "",  
       role: "",
       industryType: "",
       country: "", // لازم يبقى موجود في schema
